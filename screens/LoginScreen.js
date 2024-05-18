@@ -49,16 +49,14 @@ const handleLogin = async () => {
       }),
     });
 
-    const data = await response.json(); // Parse response as JSON
+    const data = await response.json();
+    console.log(data, "<== data")
+    console.log(response, "<== response")
 
     if (response.ok) {
-      // Save the JWT token to AsyncStorage
-      await AsyncStorage.setItem('token', data.token);
-
-      // Login successful, navigate to Home (or EmployeeList)
-      navigation.navigate('Home'); // Change 'Home' to the appropriate screen name
+      await AsyncStorage.setItem('token', data);
+      navigation.navigate('EmployeeList');
     } else {
-      // Login failed, show an error message
       Alert.alert('Login Failed', data.message || 'Please check your credentials and try again.');
     }
   } catch (error) {

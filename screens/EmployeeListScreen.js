@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,13 +6,16 @@ import {
   ScrollView,
   Text,
   TextInput,
+  Button,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';  // Import useNavigation and useFocusEffect
 
 export default function EmployeeList() {
+  const navigation = useNavigation();  // Use useNavigation hook
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState('');
@@ -20,12 +23,9 @@ export default function EmployeeList() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, [input]); // Fetch data when input changes
-
-  const fetchData = async () => {
+  const fetchData = async (clear = false) => {
     try {
+      setLoading(true);
       let token = await AsyncStorage.getItem('token');
       if (!token) {
         throw new Error('No token found');
@@ -33,7 +33,7 @@ export default function EmployeeList() {
 
       token = token.replace(/^"|"$/g, '');
 
-      const response = await fetch(`https://employee-api-kappa.vercel.app/employee?size=10&page=${page}&search=${input}`, {
+      const response = await fetch(`https://employee-api-kappa.vercel.app/employee?size=10&page=${clear ? 0 : page}&search=${input}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,8 +48,8 @@ export default function EmployeeList() {
       if (result.length === 0) {
         setHasMore(false); // No more data available
       } else {
-        setData(prevData => [...prevData, ...result]); // Append new data to existing data
-        setPage(prevPage => prevPage + 1); // Increment page number
+        setData(prevData => clear ? result : [...prevData, ...result]); // Append new data to existing data
+        setPage(prevPage => clear ? 1 : prevPage + 1); // Increment page number
       }
     } catch (error) {
       console.error(error);
@@ -58,6 +58,16 @@ export default function EmployeeList() {
       setLoading(false); // Set loading to false after data is fetched
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData(true); // Clear previous data and fetch from page 0
+    }, [])
+  );
+
+  useEffect(() => {
+    fetchData();
+  }, [input]); // Fetch data when input changes
 
   const handleScroll = ({ nativeEvent }) => {
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
@@ -71,10 +81,6 @@ export default function EmployeeList() {
     const query = input.toLowerCase();
     return data.filter(item => item.first_name.toLowerCase().includes(query));
   }, [input, data]);
-
-  console.log('loading:', loading);
-  console.log('error:', error);
-  console.log('filteredRows:', filteredRows);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -101,6 +107,8 @@ export default function EmployeeList() {
           </View>
         </View>
 
+        <Button title="Create Employee" onPress={() => navigation.navigate('CreateEmployee')} />
+
         {loading && page === 0 ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : error ? (
@@ -111,12 +119,15 @@ export default function EmployeeList() {
             onScroll={handleScroll}
             scrollEventThrottle={16}>
             {filteredRows.length ? (
-              filteredRows.map(({ first_name, last_name, phone1 }, index) => {
+              filteredRows.map((item, index) => {
+                const { first_name, last_name, phone1 } = item;
+                const id = `${index}`; // Generate a unique id
+
                 return (
-                  <View key={index} style={styles.cardWrapper}>
+                  <View key={id} style={styles.cardWrapper}>
                     <TouchableOpacity
                       onPress={() => {
-                        // handle onPress
+                        navigation.navigate('EmployeeDetail', { id, ...item });  // Pass the unique id and item data
                       }}>
                       <View style={styles.card}>
                         <View style={[styles.cardImg, styles.cardAvatar]}>
