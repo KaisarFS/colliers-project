@@ -12,10 +12,10 @@ import {
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';  // Import useNavigation and useFocusEffect
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 export default function EmployeeList() {
-  const navigation = useNavigation();  // Use useNavigation hook
+  const navigation = useNavigation();  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState('');
@@ -46,22 +46,22 @@ export default function EmployeeList() {
       const result = await response.json();
 
       if (result.length === 0) {
-        setHasMore(false); // No more data available
+        setHasMore(false); 
       } else {
-        setData(prevData => clear ? result : [...prevData, ...result]); // Append new data to existing data
-        setPage(prevPage => clear ? 1 : prevPage + 1); // Increment page number
+        setData(prevData => clear ? result : [...prevData, ...result]);
+        setPage(prevPage => clear ? 1 : prevPage + 1);
       }
     } catch (error) {
       console.error(error);
       setError(error.message);
     } finally {
-      setLoading(false); // Set loading to false after data is fetched
+      setLoading(false);
     }
   };
 
   useFocusEffect(
     useCallback(() => {
-      fetchData(true); // Clear previous data and fetch from page 0
+      fetchData(true); 
     }, [])
   );
 
