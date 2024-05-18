@@ -12,11 +12,11 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ title: 'Welcome' }} />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
-        <Stack.Screen name="EmployeeList" component={EmployeeListScreen} options={{ title: 'EmployeeList' }} />
-        <Stack.Screen name="EmployeeDetail" component={EmployeeDetailScreen} options={{ title: 'EmployeeDetail' }} />
+      <Stack.Navigator initialRouteName="Welcome">
+        <Stack.Screen name="Welcome" component={WelcomeScreen}  options={{ title: 'Welcome', headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login', headerShown: false }} />
+        <Stack.Screen name="EmployeeList" component={EmployeeListScreen} options={{ title: 'EmployeeList', headerShown: false }} />
+        <Stack.Screen name="EmployeeDetail" component={EmployeeDetailScreen} options={{ title: 'EmployeeDetail', headerShown: false }} />
         <Stack.Screen name="CreateEmployee" component={CreateEmployeeScreen} options={{ title: 'CreateEmployee' }} />
       </Stack.Navigator>
     </NavigationContainer>
