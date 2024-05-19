@@ -9,6 +9,8 @@ import {
   Button,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -67,7 +69,7 @@ export default function EmployeeList() {
 
   useEffect(() => {
     fetchData();
-  }, [input]); // Fetch data when input changes
+  }, [input]);
 
   const handleScroll = ({ nativeEvent }) => {
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
@@ -83,7 +85,8 @@ export default function EmployeeList() {
   }, [input, data]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" />
       <Text style={styles.title}>Welcome, User 👋</Text>
       <View style={styles.container}>
         <View style={styles.searchWrapper}>
@@ -108,8 +111,6 @@ export default function EmployeeList() {
           </View>
         </View>
 
-        {/* <Button title="Create Employee" onPress={() => navigation.navigate('CreateEmployee')} /> */}
-
         {loading && page === 0 ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : error ? (
@@ -122,13 +123,13 @@ export default function EmployeeList() {
             {filteredRows.length ? (
               filteredRows.map((item, index) => {
                 const { first_name, last_name, phone1 } = item;
-                const id = `${index}`; // Generate a unique id
+                const id = `${index}`;
 
                 return (
                   <View key={id} style={styles.cardWrapper}>
                     <TouchableOpacity
                       onPress={() => {
-                        navigation.navigate('EmployeeDetail', { id, ...item });  // Pass the unique id and item data
+                        navigation.navigate('EmployeeDetail', { id, ...item });
                       }}>
                       <View style={styles.card}>
                         <View style={[styles.cardImg, styles.cardAvatar]}>
@@ -161,8 +162,12 @@ export default function EmployeeList() {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight - 15 : 0,
+  },
   container: {
-    // marginTop: 26,
     paddingBottom: 24,
     flexGrow: 1,
     flexShrink: 1,
@@ -176,9 +181,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     marginTop: 6,
   },
-  /** Search */
   search: {
-    // marginTop: ,
     position: 'relative',
     backgroundColor: '#efefef',
     borderRadius: 12,
@@ -221,7 +224,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#9ca1ac',
   },
-  /** Card */
   card: {
     paddingVertical: 14,
     flexDirection: 'row',
@@ -229,7 +231,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   cardWrapper: {
-    // borderBottomWidth: 1,
     borderColor: '#d6d6d6',
   },
   cardImg: {
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontWeight: '500',
     color: '#616d79',
-    marginTop: 3,
+    // marginTop: 3,
   },
   cardAction: {
     paddingRight: 16,
