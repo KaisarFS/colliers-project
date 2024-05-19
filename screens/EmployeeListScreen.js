@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 export default function EmployeeList() {
-  const navigation = useNavigation();  
+  const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState('');
@@ -46,7 +46,7 @@ export default function EmployeeList() {
       const result = await response.json();
 
       if (result.length === 0) {
-        setHasMore(false); 
+        setHasMore(false);
       } else {
         setData(prevData => clear ? result : [...prevData, ...result]);
         setPage(prevPage => clear ? 1 : prevPage + 1);
@@ -61,7 +61,7 @@ export default function EmployeeList() {
 
   useFocusEffect(
     useCallback(() => {
-      fetchData(true); 
+      fetchData(true);
     }, [])
   );
 
@@ -84,6 +84,7 @@ export default function EmployeeList() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <Text style={styles.title}>Welcome, User 👋</Text>
       <View style={styles.container}>
         <View style={styles.searchWrapper}>
           <View style={styles.search}>
@@ -107,7 +108,7 @@ export default function EmployeeList() {
           </View>
         </View>
 
-        <Button title="Create Employee" onPress={() => navigation.navigate('CreateEmployee')} />
+        {/* <Button title="Create Employee" onPress={() => navigation.navigate('CreateEmployee')} /> */}
 
         {loading && page === 0 ? (
           <ActivityIndicator size="large" color="#0000ff" />
@@ -167,6 +168,14 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     flexBasis: 0,
   },
+  title: {
+    paddingHorizontal: 16,
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#1d1d1d',
+    marginBottom: 6,
+    marginTop: 6,
+  },
   /** Search */
   search: {
     // marginTop: ,
@@ -220,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   cardWrapper: {
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     borderColor: '#d6d6d6',
   },
   cardImg: {

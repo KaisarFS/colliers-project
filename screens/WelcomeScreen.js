@@ -1,19 +1,14 @@
-import { View, Text, Pressable, Image, StatusBar } from 'react-native'
-import {
-    SafeAreaView,
-} from 'react-native-safe-area-context';
+import { View, Text, Pressable, Image } from 'react-native'
 import React from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Welcome = ({ navigation }) => {
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <StatusBar
-                backgroundColor="#000"
-            />
+        <SafeAreaView style={{ flex: 1 }}>
             <LinearGradient
                 style={{
                     flex: 1
