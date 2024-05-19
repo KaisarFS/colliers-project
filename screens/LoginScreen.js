@@ -55,7 +55,8 @@ const handleLogin = async () => {
 
     if (response.ok) {
       await AsyncStorage.setItem('token', data);
-      navigation.navigate('EmployeeList');
+      // navigation.navigate('EmployeeList');
+      navigation.navigate("Home");
     } else {
       Alert.alert('Login Failed', data.message || 'Please check your credentials and try again.');
     }
@@ -84,7 +85,7 @@ const handleLogin = async () => {
             </Text>
 
             <Text style={styles.subtitle}>
-              Get access to your portfolio and more
+              Connect with everyone easier and faster
             </Text>
           </View>
 
@@ -192,7 +193,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   btn: {
-    backgroundColor: '#075eec',
+    // backgroundColor: '#075eec',
+    backgroundColor: '#3358ff',
     paddingVertical: 10,
     borderRadius: 5,
     alignItems: 'center',
