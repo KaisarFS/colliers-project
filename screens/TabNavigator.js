@@ -4,7 +4,7 @@ import CreateEmployeeScreen from "./CreateEmployeeScreen";
 import EmployeeListScreen from "./EmployeeListScreen";
 import DummyScreenOne from "./DummyScreenOne";
 import DummyScreenTwo from "./DummyScreenTwo";
-import DummyScreenThree from "./DummyScreenThree";
+import SettingsScreen from "./SettingsScreen";
 // import { EmployeeListScreen, DummyScreenOne, DummyScreenTwo, DummyScreenThree } from "./index";
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -40,7 +40,7 @@ export default function App() {
             return (
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Ionicons name="people-circle-outline" size={24} color={focused ? "#3358ff" : "#111"} />
-                <Text style={{ fonSize: 12, color: "#16247d" }}>EMPLOYEE</Text>
+                <Text style={{ fonSize: 12, color: "#16247d" }}>Employee</Text>
               </View>
             )
           },
@@ -55,7 +55,7 @@ export default function App() {
             return (
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <MaterialIcons name="dangerous" size={24} color={focused ? "#3358ff" : "#111"} />
-                <Text style={{ fonSize: 12, color: "#16247d" }}>DUMMY</Text>
+                <Text style={{ fonSize: 12, color: "#16247d" }}>Dummy</Text>
               </View>
             )
           }
@@ -92,7 +92,7 @@ export default function App() {
             return (
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <MaterialIcons name="dangerous" size={24} color={focused ? "#3358ff" : "#111"} />
-                <Text style={{ fonSize: 12, color: "#16247d" }}>DUMMY</Text>
+                <Text style={{ fonSize: 12, color: "#16247d" }}>Dummy</Text>
               </View>
             )
           }
@@ -100,13 +100,13 @@ export default function App() {
       />
       <Tab.Screen
         name="Settings"
-        component={DummyScreenThree}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Ionicons name="settings" size={24} color={focused ? "#3358ff" : "#111"} />
-                <Text style={{ fonSize: 12, color: "#16247d" }}>SETTINGS</Text>
+                <Text style={{ fonSize: 12, color: "#16247d" }}>Settings</Text>
               </View>
             )
           }
